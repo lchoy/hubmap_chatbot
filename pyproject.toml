@@ -1,0 +1,30 @@
+[project]
+name = "hubmapbot"
+version = "0.1.0"
+dependencies = [
+    "openai~=0.27.8",
+    "langchain~=0.0.207",
+    "tenacity~=8.2.2",
+    "rich~=13.0.1",
+    "tiktoken~=0.4.0",
+    "pandas~=1.5.3",
+    "python-dotenv~=1.0.0",
+    "chromadb~=0.3.26",
+    "hubmap_sdk~=1.0.4",
+    "markdown_strings",
+    "GitPython",
+]
+
+[project.optional-dependencies]
+streamlit = [
+    "streamlit~=1.24.0",
+    "streamlit-chat",
+    "streamlit-extras",
+]
+
+[project.scripts]
+hubmapbot = "hubmapbot.simple_chatbot:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

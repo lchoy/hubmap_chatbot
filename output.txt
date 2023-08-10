@@ -1,0 +1,694 @@
+created_timestamp example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "range")
+1665590875793
+1649882390009
+1589805335545
+1637553829492
+1675803451881
+1631647228692
+1629924598285
+1594405814759
+1632434390904
+1581542486515
+1653690839613
+1647263661546
+1678223933771
+1576869788959
+1628179020926
+1660713389911
+
+donor.mapped_metadata.age_value[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "range")
+54.0
+32.4
+56.0
+40.0
+15.7
+62.0
+51.0
+17.0
+28.0
+28.4
+21.0
+52.0
+21.8
+67.0
+25.1
+23.3
+50.0
+36.1
+75.0
+39.3
+25.0
+30.0
+26.8
+14.0
+33.3
+24.8
+36.2
+30.2
+24.5
+22.3
+24.0
+59.0
+38.1
+55.0
+78.0
+34.7
+36.0
+20.5
+77.0
+66.0
+57.0
+16.4
+20.0
+31.3
+21.3
+45.0
+31.5
+39.6
+36.6
+18.0
+58.0
+22.1
+21.2
+37.0
+76.0
+53.0
+38.0
+33.2
+10.0
+43.0
+29.3
+73.0
+11.0
+1.0
+44.0
+31.0
+
+donor.mapped_metadata.blood_type[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+AB
+B
+A
+O
+
+donor.mapped_metadata.body_mass_index_value[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "range")
+23.1
+18.5
+35.1
+26.0
+29.3
+34.9
+23.4
+45.5
+28.9
+30.1
+16.2
+20.7
+30.4
+29.2
+21.7
+21.8
+20.5
+29.1
+47.9
+30.3
+20.2
+22.2
+23.7
+28.2
+33.2
+28.3
+23.6
+34.5
+24.7
+27.3
+27.07
+19.7
+19.4
+23.8
+30.2
+25.0
+25.4
+24.2
+27.9
+25.8
+25.5
+24.5
+30.0
+20.9
+40.0
+27.7
+33.5
+27.1
+22.9
+25.1
+28.4
+32.14
+25.9
+23.0
+22.7
+38.6
+53.06
+26.5
+24.0
+29.4
+28.7
+29.0
+34.0
+37.1
+19.6
+32.0
+22.6
+23.2
+32.5
+32.2
+18.0
+22.0
+30.9
+32.6
+53.0
+19.2
+
+donor.mapped_metadata.cause_of_death[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Traumatic injury
+Liver failure
+Head trauma
+Cerebral edema
+Gunshot wound
+Asphyxiation
+Cerebrovascular accident
+Anoxia
+Cardiovascular
+
+donor.mapped_metadata.death_event[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Accident
+Motor vehicle accident
+Suicide
+Natural causes
+
+donor.mapped_metadata.height_value[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "range")
+162.3
+157.5
+170.2
+63.0
+157.48
+188.0
+168.0
+166.0
+180.3
+149.9
+183.0
+177.8
+181.6
+147.3
+108.3
+162.6
+175.3
+187.9
+193.0
+178.1
+170.0
+152.4
+160.0
+178.0
+175.2
+66.0
+150.0
+147.0
+68.0
+182.9
+172.3
+182.88
+152.0
+167.6
+
+donor.mapped_metadata.mechanism_of_injury[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Drug intoxication
+Intracranial hemorrhage
+Traumatic injury
+Cardiovascular
+Heart failure
+Hanging
+Blunt injury
+Intoxication
+Natural causes
+Asphyxiation
+Gunshot wound
+
+donor.mapped_metadata.race[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+American Indian or Alaska native
+Asian
+White
+Hispanic
+Black or African American
+Native Hawaiian or Other Pacific Islander
+Unknown
+
+donor.mapped_metadata.sex[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Female
+Male
+
+donor.mapped_metadata.social_history[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Illicit drug use
+Marijuana use
+Intravenous drug use
+Smoker
+Drug Abuse
+Former smoker
+Methamphetamine use
+Intravenous drug user
+Heavy drinker
+
+donor.mapped_metadata.weight_value[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "range")
+80.9
+150.9
+71.3
+130.0
+87.5
+50.2
+63.9
+53.5
+67.1
+67.3
+55.0
+120.0
+74.6
+114.1
+71.6
+69.0
+90.7
+100.7
+59.0
+68.0
+72.0
+98.4
+87.6
+76.6
+35.0
+139.6
+99.0
+91.2
+112.7
+131.6
+91.4
+106.1
+74.8
+104.2
+50.0
+49.0
+10.1
+92.5
+166.0
+73.0
+62.0
+116.9
+45.6
+86.0
+72.7
+91.9
+97.0
+44.5
+54.9
+80.0
+60.8
+93.9
+
+files[n].rel_path example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "wildcard")
+*.png
+*.tsv
+*.html
+*.h5ad
+*.gz
+*.csv
+*.pdf
+*.mtx
+*.bed
+*.snap
+*.tif
+*.sf
+*.zip
+*.txt
+*.narrowPeak
+*.hdf5
+*.arrow
+*.log
+*.json
+*.r
+*.xls
+*.tiff
+*.h5
+*.qc
+
+files[n].size example values:  (not a nested type) (never use in "filter", use "must") (file size in bytes) (use "bool" "must" "range")
+242230
+220577
+4676
+317997319
+12936
+26631
+289647
+25836
+21524
+888658
+4850752
+3747860
+1170114
+178076
+35915
+29735
+578659
+55751
+900737049
+41222
+4857612
+1446006
+25561
+267919
+137
+1857202
+239001
+975598
+133419
+746064
+317596
+3527406
+15650
+279307
+11964
+348311
+3003357
+1148329
+506231
+8220686
+996308453
+35008
+25441357
+2267521
+69712
+5637
+2967413
+18529
+3221668
+60716
+5167
+983064
+414842
+141355
+268466
+149071
+11776
+3073774
+123597
+340405
+190777
+710928
+121471
+36097399
+45861021
+189741
+491026
+466240
+30955
+16304
+3155659
+1782871
+2853841
+72058
+93417
+24485
+367386
+554400
+139477
+204150
+32628
+38692
+632840
+618433
+638942
+1770463
+3382456
+209943
+41342
+4386
+86346
+73846
+4682590
+3790282
+3309907
+125116
+152135855
+52143
+1815792
+1530405
+530690
+4683957
+289100483
+198632
+1713787
+678700
+26423
+6456
+705598
+34065
+553077
+1172403
+21761
+210043736
+39790
+282511
+653581
+4826643
+9863
+79782
+447832
+
+files[n].type example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+json
+arrow
+h5ad
+unknown
+pdf
+csv
+hdf5
+
+group_name example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+California Institute of Technology TMC
+TMC - University of Connecticut and Scripps
+Stanford RTI
+Vanderbilt TMC
+University of Florida TMC
+Broad Institute RTI
+General Electric RTI
+University of California San Diego TMC
+Stanford TMC
+Northwestern RTI
+
+mapped_data_types[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+snRNA-seq (10x Genomics v3)
+MALDI IMS
+snATAC-seq
+LC-MS
+Slide-seq [Salmon]
+sciRNA-seq
+scRNA-seq (10x Genomics v3)
+Bulk RNA-seq [Salmon]
+seqFISH
+CODEX
+snRNA-seq (SNARE-seq2) [Salmon]
+LC-MS Bottom Up
+snATAC-seq (SNARE-seq2) [Lab Processed]
+MS
+LC-MS Top Down
+Imaging Mass Cytometry (2D)
+snRNA-seq [Salmon]
+PAS Stained Microscopy
+snATACseq (SNARE-seq2)
+sciRNA-seq [Salmon]
+Cell DIVE
+Multiplex Ion Beam Imaging
+Whole Genome Sequencing
+Bulk ATAC-seq
+Slide-seq
+snRNAseq (SNARE-seq2)
+snATAC-seq [SnapATAC]
+seqFISH [Lab Processed]
+Autofluorescence Microscopy
+sciATAC-seq
+CODEX [Cytokit + SPRM]
+snATAC-seq (SNARE-seq2) [SnapATAC]
+Bulk ATAC-seq [BWA + MACS2]
+Imaging Mass Cytometry (3D)
+
+origin_samples[n].mapped_organ example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Heart
+Kidney (Left)
+Large Intestine
+Skin
+Spleen
+Liver
+Knee (Right)
+Kidney (Right)
+Small Intestine
+Lymph Node
+Lung (Right)
+Uterus
+Thymus
+Bladder
+
+published_timestamp example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "range")
+1678370532036
+1644775263527
+1598112338980
+1681089583307
+1686927311187
+1631125851467
+1598119005764
+1598118997570
+1686927459839
+1598112335411
+1678370509241
+1598104239661
+1598112485934
+1624926518922
+1678370246039
+1643320108857
+
+source_samples[n].created_timestamp example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "range")
+1639585575112
+1620778606325
+1577417368645
+1605033045164
+1648841841562
+1604954628046
+1649887560166
+1649887594503
+1620778889119
+1610469047972
+1620778758047
+1573665957234
+1620779008657
+1577740091975
+1577116662026
+1629404488193
+1631050257198
+1620778633932
+1649887598912
+1631640844294
+1604084821218
+1581029129166
+1594077927926
+1634242650538
+1613170056091
+1620778884988
+1634242993102
+1603259969759
+1597752975539
+1578601658596
+1620779046403
+1613069103218
+1634242220849
+1604084257477
+1576875516933
+1604065456888
+1597753260804
+1620778937526
+1648841891254
+1620779100968
+1581104801556
+1638297972357
+1577438505208
+1655322609488
+1648840730089
+1581028832464
+1594078020773
+1648840472288
+1620778603747
+1613169866289
+1615605115740
+1620778811580
+1594077305449
+1604083525461
+1597753145395
+1597753116804
+1576084259168
+1631049923896
+1581106216366
+1594077214744
+1576867912134
+1615604169051
+1648841943540
+1613171556491
+1576866622945
+1577115982901
+
+source_samples[n].mapped_sample_category example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Section
+Organ
+Suspension
+Block
+
+source_samples[n].metadata.health_status example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+chronic illness
+relatively healthy
+
+source_samples[n].metadata.perfusion_solution example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Unknown
+Belzer MPS/KPS
+None
+Formalin
+UWS
+HTK
+
+source_samples[n].metadata.specimen_preservation_temperature example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Freezer (-80 Celsius)
+Liquid Nitrogen
+Room Temperature
+
+source_samples[n].metadata.vital_state example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+living
+deceased
+
+source_samples[n].tissue_type example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Block
+Unknown
+Section
+Suspension
+
+donor.mapped_metadata.kidney_donor_profile_index_value[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "range")
+98.0
+40.0
+77.0
+41.0
+88.0
+80.0
+52.0
+90.0
+58.0
+27.0
+11.0
+45.0
+39.0
+100.0
+
+donor.mapped_metadata.medical_history[n] example values:  (not a nested type) (never use in "filter", use "must") (use "bool" "must" "match")
+Gastroesophageal reflux disease
+Tourette Syndrome
+Diabetes
+Pre-eclampsia
+Hyperlipidimia
+Renal Mass
+Asthma
+Coronary Heart Disease
+Kidney cancer
+Coronary artery disease
+Depression
+Ovarian cancer
+Hypothyroidism
+Chronic Obstructive Lung Disease
+Type 1 Diabetes Mellitus
+Type 2 Diabetes Mellitus
+Cancer
+Hypertension
+Obstructive sleep apnea
+Gastrointestinal disease
+Cardiac arrest
+
