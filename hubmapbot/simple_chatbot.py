@@ -240,14 +240,11 @@ def select_engine(user_message, model_name):
         logger.debug(f"Response arg_dict: {arg_dict}")
 
         category_arg = arg_dict["category"]
-        # selected_engine = ENGINE_MAPPING[category_arg]
-        # selected_engine = ENGINE_MAPPING[function_call["name"]]
         msg = f"category: {category_arg}"
 
         if "entity_type" in arg_dict:
             msg += f", entity_type: {arg_dict['entity_type']}"
         logger.debug(msg)
-        # return ChatMessage(role=Roles.ASSISTANT, summary_content=msg, renderable_content=[msg])
         SEARCH_MAPPING = {
             "dataset": Modes.SEARCH_DATASET,
             "sample": Modes.SEARCH_SAMPLE,
@@ -258,15 +255,12 @@ def select_engine(user_message, model_name):
 
         if category_arg == "search":
             if "entity_type" not in arg_dict:
-                # return ChatMessage(role=Roles.ASSISTANT, summary_content=f"Missing entity_type", renderable_content=[f"Missing entity_type"])
                 raise SelectException(f"Missing entity_type")
             if arg_dict["entity_type"] not in SEARCH_MAPPING:
-                # return ChatMessage(role=Roles.ASSISTANT, summary_content=f"Unknown entity type: {arg_dict['entity_type']}", renderable_content=[f"Unknown entity type: {arg_dict['entity_type']}"])
                 raise SelectException(f"Unknown entity type: {arg_dict['entity_type']}")
             engine_name = SEARCH_MAPPING[arg_dict["entity_type"]]
 
         if engine_name not in REDUCE_ENGINE_MAP:
-            # return ChatMessage(role=Roles.ASSISTANT, summary_content=f"Unknown question category: {engine_name}", renderable_content=[f"Unknown question category: {engine_name}"])
             raise SelectException(f"Unknown question category: {engine_name}")
 
     logger.debug(f"selected engine: {engine_name}")
@@ -329,19 +323,13 @@ def general_engine(user_message: str, model_name) -> str:
 
     if choice["finish_reason"] != "function_call":
         content = choice["message"]["content"]
-        # display_chatbot_message(content)
         return ChatMessage(role=Roles.ASSISTANT, summary_content=content, renderable_content=[content])
     else:
         content = TEXT_ANSWER_FAIL_MSG
-        # display_chatbot_message(content)
         return ChatMessage(role=Roles.ASSISTANT, summary_content=content, renderable_content=[content])
 
 
 def es_engine(user_message: str, model_name, entity_type=None, retry=1) -> str:
-    # assert entity_type in ["dataset", "sample", "donor"]
-
-    # entity_type = Modes.SEARCH_DATASET  # TODO: remove this line
-
     entity_formatted_mapping = {
         Modes.SEARCH_DATASET: "Dataset",
         Modes.SEARCH_SAMPLE: "Sample",
@@ -357,7 +345,6 @@ def es_engine(user_message: str, model_name, entity_type=None, retry=1) -> str:
     logger.debug(f"searching with user_message: {user_message}")
 
     docs = RETRIEVERS[entity_type].get_relevant_documents(user_message + " " + extras)
-    # docs = RETRIEVERS[f"{RetrieverOptions.SEARCH}_{entity_type}"].get_relevant_documents(user_message+" "+extras)
 
     if len(docs) == 0:
         raise Exception("No docs found")
@@ -379,12 +366,8 @@ def es_engine(user_message: str, model_name, entity_type=None, retry=1) -> str:
     if len(docs) == 0:
         raise Exception("All docs were too long")
 
-    # raise Exception("TODO")
-
     context = "\n\n\n".join([doc.page_content for doc in docs])
     context = context.replace("[n]", "")
-    # context = context.replace("example values:", '(not a nested type, use "bool" "must" "match/range/wildcard") example values:')
-    # context = context.replace("example values:", '(never use in "filter", use "must") example values:')
 
     formatted_prompt = ES_SEARCH_PROMPT.format(
         context=context,
@@ -410,8 +393,6 @@ def es_engine(user_message: str, model_name, entity_type=None, retry=1) -> str:
         **chat_completion_default_kwargs(model_name)
     )
     logger.debug(f"completion: {completion}")
-    # global choice
-    # choice = completion["choices"][0]
 
     results = [parse_es_choice(choice, entity_type_formatted) for choice in completion["choices"]]
 
@@ -420,12 +401,6 @@ def es_engine(user_message: str, model_name, entity_type=None, retry=1) -> str:
 
     if num_succeeded == 0 and retry > 0:
         results += es_engine(user_message, model_name, retry=retry - 1)
-
-    # first_success = next((res for res in results if res.successful), None)
-    # if first_success:
-    #     summary = first_success[1].summary_content
-    # else:
-    #     summary = results[0][1].summary_content
 
     # sort results, succeeded first
     results.sort(key=lambda res: res.num_results)
@@ -698,8 +673,8 @@ ENGINE_MAPPING = {
     Modes.AUTO: auto_engine,
     Modes.GENERAL: general_engine,
     Modes.SEARCH_DATASET: lambda *args: es_engine(*args, entity_type=Modes.SEARCH_DATASET),
-    Modes.SEARCH_SAMPLE: lambda *args: es_engine(*args, entity_type=Modes.SEARCH_DATASET),
-    Modes.SEARCH_DONOR: lambda *args: es_engine(*args, entity_type=Modes.SEARCH_DATASET),
+    Modes.SEARCH_SAMPLE: lambda *args: es_engine(*args, entity_type=Modes.SEARCH_DATASET), # TODO
+    Modes.SEARCH_DONOR: lambda *args: es_engine(*args, entity_type=Modes.SEARCH_DATASET), # TODO
     Modes.OTHER: simple_engine,
 }
 
