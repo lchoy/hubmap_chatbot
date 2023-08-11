@@ -12,8 +12,6 @@ from dotenv import load_dotenv
 load_dotenv(dotenv_path='.env')
 
 
-# logging.basicConfig(level=logging.DEBUG)
-
 handlers = [logging.StreamHandler()]
 if not os.environ.get("DOCKER_CONTAINER", False):
     log_folder = Path(os.environ.get("LOG_DIR", "logs"))
@@ -81,8 +79,6 @@ if OPENAI_API_KEY_ENV not in st.session_state:
     set_api_key(openai_api_key, openai_api_org)
 
 if not valid_api_key or not valid_api_org or bad_key_override:
-    # if bad_key_override:
-        # st.error("API request failed. Please enter a valid API key.")
     if st.session_state.get("last_exception", None) is not None:
         st.error(st.session_state["last_exception"])
     new_openai_api_key = st.text_input("OpenAI API Key [(create one here)](https://platform.openai.com/account/api-keys)", type="password", placeholder="e.g. sk-abc123lH9nREzdMHNT9J1Ex1x2o8frzKzyUOdyH9HmH", value=openai_api_key)
@@ -124,8 +120,6 @@ def render_multi_msg(msg: Union[ChatMessage, List[ChatMessage]], chat_msg=None):
         msg = msglist[0]
 
     role = msg.role
-    # if len(content) == 0:
-    #     return
     
     if chat_msg is None:
         with chat_container:
@@ -205,7 +199,6 @@ if prompt := st.chat_input(placeholder="Type a question...", key="chat_input"):
         os.environ["OPENAI_API_KEY"] = stripped_prompt
         reset_chat_history()
         st.experimental_rerun()
-        st.stop()
     render_multi_msg(add_new_prompt(prompt))
 
 suggestions_parent = st.empty()
@@ -229,8 +222,6 @@ def get_last_msgs():
     return prev_user_content, prev_chatbot_content
 
 
-DUMMY_CHATBOT = False
-
 def self_or_first(x):
     if isinstance(x, list):
         return x[0]
@@ -251,25 +242,16 @@ if self_or_first(st.session_state.messages[-1]).role == Roles.USER:
 
                 prev_user_message, prev_chatbot_response = get_last_msgs()
 
-                if DUMMY_CHATBOT:
-                    time.sleep(1)
-                    response_arr = [f"I see you said: {user_message}", {"text": "cool"}, HTTPException(description="{\"error\": \"test error\"}", status_code=400)]
-                    chatbot_response = ChatMessage(role=Roles.ASSISTANT, summary_content=response_arr[0], renderable_content=response_arr)
-
-                else:
-                    logger.info(f"User message: {user_message}")
-                    # user_message = condense_history(prev_user_message, prev_chatbot_response, user_message)
-                    # logger.info(f"Condensed user message: {user_message}")
-                    try:
-                        chatbot_response = ENGINE_MAPPING[REDUCE_ENGINE_MAP[mode_select]](user_message, model_name)
-                    except openai.error.AuthenticationError as e:
-                        st.session_state['bad_api_key'] = True
-                        st.session_state['last_exception'] = e
-                        st.experimental_rerun()
-                    except Exception as e:
-                        logger.error(e)
-                        chatbot_response = ChatMessage(role=Roles.ASSISTANT, summary_content="An error occurred.", renderable_content=["An error occurred:", e])
-                    # logger.info(f"Chatbot response: {chatbot_response.summary_content}")
+                logger.info(f"User message: {user_message}")
+                try:
+                    chatbot_response = ENGINE_MAPPING[REDUCE_ENGINE_MAP[mode_select]](user_message, model_name)
+                except openai.error.AuthenticationError as e:
+                    st.session_state['bad_api_key'] = True
+                    st.session_state['last_exception'] = e
+                    st.experimental_rerun()
+                except Exception as e:
+                    logger.error(e)
+                    chatbot_response = ChatMessage(role=Roles.ASSISTANT, summary_content="An error occurred.", renderable_content=["An error occurred:", e])
 
                 response_obj = chatbot_response
 
