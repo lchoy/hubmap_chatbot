@@ -216,8 +216,6 @@ def select_engine(user_message, model_name):
     completion = retry_chat_completion(
         messages=[
             {"role": "system", "content": RETRIEVER_SELECT_PROMPT.format(question=user_message)},
-            # {"role": "system", "content": RETRIEVER_SELECT_PROMPT.format(question=user_message)},
-            # {"role": "user", "content": user_message},
             {"role": "system", "content": "Do not respond to the user's question."},
         ],
         functions=RETRIEVER_SELECT_FUNCTIONS,
@@ -233,9 +231,7 @@ def select_engine(user_message, model_name):
         content = choice["message"]["content"]
         logger.debug(f"select engine content: {content}")
         usr_message = "I couldn't understand your question. Please try rephrasing your question, or try asking a different question."
-        # return ChatMessage(role=Roles.ASSISTANT, summary_content=usr_message, renderable_content=[usr_message])
         raise SelectException(usr_message)
-        # return ChatMessage(role=Roles.ASSISTANT, summary_content=content, renderable_content=["didn't call a function", content])
     else:
         function_call = choice["message"]["function_call"]
         arg_dict = json.loads(function_call["arguments"])
@@ -480,34 +476,16 @@ def parse_es_choice(choice, entity_type_formatted):
             logger.debug("No query key found in parsed query, adding one")
 
         logger.debug(parsed_query)
-        # res.append("JSON query:")
         res.append(ParsedQuery(query=parsed_query))
 
         num_results = 0
 
         try:
-            # global search_results, formatted_search_results
             search_results = hubmap_search(parsed_query)
             formatted_search_results = format_search_result_to_dataframe(search_results)  # dataframe
             logger.debug(f"search_results: {search_results}")
 
             res.append(hardcoded_explain(parsed_query))
-
-            # completion = retry_chat_completion(
-            #     messages=[
-            #         {"role": "system", "content": EXPLAIN_JSON2},
-            #         {"role": "user", "content": json.dumps(parsed_query)},
-            #     ],
-            #     n=3,
-            #     # functions=ES_SEARCH_FUNCTIONS,
-            #     **CHAT_COMPLETION_DEFAULT_KWARGS
-            # )
-
-            # choice = completion["choices"][0]
-            # content = choice["message"]["content"]
-            # # replace /n with /n/n
-            # content = re.sub(r"\n", r"\n\n", content)
-            # res.append(content)
 
             num_results = len(formatted_search_results)
             if num_results > 0:
@@ -529,18 +507,10 @@ def parse_es_choice(choice, entity_type_formatted):
         function_call = choice["message"]["function_call"]
         arguments = json.loads(function_call["arguments"])
         if function_call.name == "failed":
-            display_chatbot_message(content)
-            # return [arguments["reason"]]
             res = arguments["reason"]
             return ChatMessage(role=Roles.ASSISTANT, summary_content=res, renderable_content=[res], successful=did_succeed)
         else:
-            # display_chatbot_message(content)
-            return ChatMessage(role=Roles.ASSISTANT, summary_content=content, renderable_content=[content], successful=did_succeed)
-        # elif function_call.name == "submit_query":
-        #     json_query = arguments["query"]
-        #     md_json_query = JSON_MD.format(json=json.dumps(json.loads(json_query), indent=2))
-        #     explanation = arguments["explanation"]
-        #     return f"{explanation}\n\nHere is the query:\n\n{md_json_query}"
+            return ChatMessage(role=Roles.ASSISTANT, summary_content=function_call, renderable_content=[function_call], successful=did_succeed)
 
 
 ALWAYS_INCLUDES = [
@@ -620,8 +590,6 @@ def get_field_example_dict(json_obj, field_example_dict, prefix=""):
             get_field_example_dict(item, field_example_dict, new_prefix)
     else:
         field_example_dict[prefix] = json_obj
-        # field_example_dict[prefix].add(json_obj)
-        # field_example_dict[prefix][json_obj] += 1
 
 
 def format_search_result_to_dataframe(search_result):
@@ -749,51 +717,51 @@ REDUCE_ENGINE_MAP = {
 }
 
 
-def display_chatbot_message(message):
-    display_markdown(f'#### Chatbot:\n{message}')
-
-
-def display_user_message(message):
-    display_markdown(f'#### User:\n{message}')
-
-
-def display_markdown(markdown):
-    is_jupyter_notebook = is_running_in_notebook()
-    if is_jupyter_notebook:
-        from IPython.display import display, Markdown
-        display(Markdown(markdown))
-    else:
-        console = rich.console.Console()
-        md = rich.markdown.Markdown(markdown)
-        console.print(md)
-
-
-def main():
-    # logging.basicConfig(level=logging.DEBUG)
-    logging.basicConfig(filename='simple_chatbot.log', filemode='w', level=logging.DEBUG)
-
-    prev_user_message = None
-    prev_chatbot_response = None
-
-    display_chatbot_message(INITIAL_MESSAGE)
-    while True:
-
-        user_message = input("User: ")
-        if len(user_message) == 0:
-            display_chatbot_message("Goodbye!")
-            break
-        display_user_message(user_message)
-        user_message = condense_history(prev_user_message, prev_chatbot_response, user_message)
-        logger.debug(f"Standalone user question: {user_message}")
-
-        chatbot_response = general_engine(user_message)
-
-        for renderable_content in chatbot_response.renderable_content:
-            display_chatbot_message(renderable_content)
-
-        prev_user_message = user_message
-        prev_chatbot_response = chatbot_response
-
-
-if __name__ == "__main__":
-    main()
+# def display_chatbot_message(message):
+#     display_markdown(f'#### Chatbot:\n{message}')
+#
+#
+# def display_user_message(message):
+#     display_markdown(f'#### User:\n{message}')
+#
+#
+# def display_markdown(markdown):
+#     is_jupyter_notebook = is_running_in_notebook()
+#     if is_jupyter_notebook:
+#         from IPython.display import display, Markdown
+#         display(Markdown(markdown))
+#     else:
+#         console = rich.console.Console()
+#         md = rich.markdown.Markdown(markdown)
+#         console.print(md)
+#
+#
+# def main():
+#     # logging.basicConfig(level=logging.DEBUG)
+#     logging.basicConfig(filename='simple_chatbot.log', filemode='w', level=logging.DEBUG)
+#
+#     prev_user_message = None
+#     prev_chatbot_response = None
+#
+#     display_chatbot_message(INITIAL_MESSAGE)
+#     while True:
+#
+#         user_message = input("User: ")
+#         if len(user_message) == 0:
+#             display_chatbot_message("Goodbye!")
+#             break
+#         display_user_message(user_message)
+#         user_message = condense_history(prev_user_message, prev_chatbot_response, user_message)
+#         logger.debug(f"Standalone user question: {user_message}")
+#
+#         chatbot_response = general_engine(user_message)
+#
+#         for renderable_content in chatbot_response.renderable_content:
+#             display_chatbot_message(renderable_content)
+#
+#         prev_user_message = user_message
+#         prev_chatbot_response = chatbot_response
+#
+#
+# if __name__ == "__main__":
+#     main()
