@@ -206,7 +206,7 @@ def aggregate_field_examples(search_result):
 
 
 
-def aggregated_field_examples_to_docs(field_example_dict):
+def aggregated_field_examples_to_docs(field_example_dict, entity_type):
     docs = []
     for k, v in field_example_dict.items():
         # if a \n appears in the any string, skip it
@@ -241,7 +241,7 @@ def aggregated_field_examples_to_docs(field_example_dict):
         docval_cropped = docval_cropped[:docval_cropped.rfind('\n')]
 
         # if not beginswith INCLUDELIST, skip
-        if not any([k.startswith(x) for x in INCLUDELIST_DATASET]):
+        if not any([k.startswith(x) for x in INCLUDELIST_MAP[entity_type]]):
             continue
 
         extras = ' (not a nested type) (never use in "filter", use "must")'
@@ -286,12 +286,15 @@ def overwrite_chroma_db(persist_directory, collection_name, docs):
 def generate_es_field_db(entity_type):
     search_result = SEARCHSDK_INSTANCE.search_by_index(get_search_template(entity_type), "portal")
     field_example_dict = aggregate_field_examples(search_result)
-    docs = aggregated_field_examples_to_docs(field_example_dict)
+    docs = aggregated_field_examples_to_docs(field_example_dict, entity_type)
 
     with open(DEBUG_OUT_DIR/f"es_field_db_{entity_type}.txt", "w") as f:
         for d in docs:
             f.write(d.page_content)
             f.write("\n\n")
+
+    with open(DEBUG_OUT_DIR/f"es_field_db_{entity_type}.json", "w") as f:
+        json.dump(field_example_dict, f, indent=2)
 
     overwrite_chroma_db(get_chroma_persist_dir(entity_type), CHROMA_COL_NAME, docs)
 
