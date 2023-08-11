@@ -4,10 +4,8 @@ import logging
 import os
 import re
 import shlex
-from collections import defaultdict
 from collections import namedtuple
 from dataclasses import dataclass
-from functools import lru_cache
 from pathlib import Path
 from typing import List, Any, Callable
 
@@ -20,7 +18,6 @@ import tiktoken
 from dotenv import load_dotenv
 from hubmap_sdk import SearchSdk
 from hubmap_sdk.sdk_helper import HTTPException
-from langchain.docstore.document import Document
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from tenacity import (
@@ -30,8 +27,8 @@ from tenacity import (
     stop_after_attempt,
     wait_exponential,
 )
+from hubmapbot.utils import reduce_tokens_below_limit, kwargs_to_dict, is_running_in_notebook
 
-from .constants import *
 from .prompts import *
 
 load_dotenv(dotenv_path='.env')
@@ -80,9 +77,7 @@ MODE_MAP = {
 }
 
 
-class Roles(str, Enum):
-    USER = "user"
-    ASSISTANT = "assistant"
+
 
 
 @dataclass
@@ -92,30 +87,6 @@ class ChatMessage:
     renderable_content: List[object]
     successful: bool = True
     num_results: int = 0
-
-
-def num_tokens_from_string(string: str) -> int:
-    num_tokens = len(ENCODING.encode(string))
-    return num_tokens
-
-
-def reduce_tokens_below_limit(max_tokens_limit, docs: List[Document]) -> List[Document]:
-    num_docs = len(docs)
-
-    tokens = [
-        num_tokens_from_string(doc.page_content)
-        for doc in docs
-    ]
-    token_count = sum(tokens[:num_docs])
-    while token_count > max_tokens_limit:
-        num_docs -= 1
-        token_count -= tokens[num_docs]
-
-    return docs[:num_docs]
-
-
-def kwargs_to_dict(**kwargs):
-    return kwargs
 
 
 def hardcoded_explain(parsed_query):
@@ -674,15 +645,6 @@ def format_search_result_to_dataframe(search_result):
         columns.insert(0, "url")
     df = df[columns]
     return df
-
-
-@lru_cache(maxsize=1)
-def is_running_in_notebook():
-    try:
-        get_ipython().config
-        return True
-    except NameError:
-        return False
 
 
 SEARCH_SAMPLE_REQUEST = {

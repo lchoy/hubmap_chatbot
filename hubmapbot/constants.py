@@ -17,3 +17,7 @@ class Modes(str, Enum):
     SEARCH_SAMPLE = "search_sample"
     SEARCH_DONOR = "search_donor"
     OTHER = "other"
+
+class Roles(str, Enum):
+    USER = "user"
+    ASSISTANT = "assistant"
